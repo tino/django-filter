@@ -59,10 +59,10 @@ class Filter(object):
         if not value:
             return qs
         if isinstance(value, (list, tuple)):
-            lookup = str(value[1])
+            lookup = str(value[0])
             if not lookup:
                 lookup = 'exact' # we fallback to exact if no choice for lookup is provided
-            value = value[0]
+            value = value[1]
         else:
             lookup = self.lookup_type
         if value:

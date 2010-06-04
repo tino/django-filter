@@ -395,7 +395,7 @@ filter_tests = """
 ...         fields = ['price']
 >>> f = F(queryset=Book.objects.all())
 >>> print f.form
-<tr><th><label for="id_price_0">Price:</label></th><td><input type="text" name="price_0" id="id_price_0" /><select name="price_1" id="id_price_1">
+<tr><th><label for="id_price_0">Price:</label></th><td><select name="price_0" id="id_price_0">
 <option value="contains">contains</option>
 <option value="day">day</option>
 <option value="endswith">endswith</option>
@@ -418,7 +418,7 @@ filter_tests = """
 <option value="startswith">startswith</option>
 <option value="week_day">week_day</option>
 <option value="year">year</option>
-</select></td></tr>
+</select><input type="text" name="price_1" id="id_price_1" /></td></tr>
 >>> class F(FilterSet):
 ...     price = django_filters.NumberFilter(lookup_type=['lt', 'gt'])
 ...     class Meta:
@@ -426,17 +426,17 @@ filter_tests = """
 ...         fields = ['price']
 >>> f = F(queryset=Book.objects.all())
 >>> print f.form
-<tr><th><label for="id_price_0">Price:</label></th><td><input type="text" name="price_0" id="id_price_0" /><select name="price_1" id="id_price_1">
+<tr><th><label for="id_price_0">Price:</label></th><td><select name="price_0" id="id_price_0">
 <option value="lt">lt</option>
 <option value="gt">gt</option>
-</select></td></tr>
->>> f = F({'price_0': '15', 'price_1': 'lt'}, queryset=Book.objects.all())
+</select><input type="text" name="price_1" id="id_price_1" /></td></tr>
+>>> f = F({'price_1': '15', 'price_0': 'lt'}, queryset=Book.objects.all())
 >>> f.qs
 [<Book: Ender's Game>]
->>> f = F({'price_0': '15', 'price_1': 'lt'})
+>>> f = F({'price_1': '15', 'price_0': 'lt'})
 >>> f.qs
 [<Book: Ender's Game>]
->>> f = F({'price_0': '', 'price_1': 'lt'})
+>>> f = F({'price_1': '', 'price_0': 'lt'})
 >>> f.qs
 [<Book: Ender's Game>, <Book: Rainbox Six>, <Book: Snowcrash>]
 
@@ -558,13 +558,13 @@ TypeError: Meta.fields contains a field that isn't defined on this FilterSet
 ...         model = Book
 ...         fields = ['price']
 
->>> f = F({'price_0': '15'})
+>>> f = F({'price_1': '15'})
 >>> f.qs
 [<Book: Rainbox Six>]
 >>> print f.form
-<tr><th><label for="id_price_0">Price:</label></th><td><input type="text" name="price_0" value="15" id="id_price_0" /><select name="price_1" id="id_price_1">
+<tr><th><label for="id_price_0">Price:</label></th><td><select name="price_0" id="id_price_0">
 <option value="lt">Less than</option>
 <option value="gt">Greater than</option>
 <option value="exact">Exactly</option>
-</select></td></tr>
+</select><input type="text" name="price_1" value="15" id="id_price_1" /></td></tr>
 """
