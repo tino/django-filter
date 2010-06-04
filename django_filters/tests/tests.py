@@ -427,8 +427,8 @@ filter_tests = """
 >>> f = F(queryset=Book.objects.all())
 >>> print f.form
 <tr><th><label for="id_price_0">Price:</label></th><td><input type="text" name="price_0" id="id_price_0" /><select name="price_1" id="id_price_1">
-<option value="gt">gt</option>
 <option value="lt">lt</option>
+<option value="gt">gt</option>
 </select></td></tr>
 >>> f = F({'price_0': '15', 'price_1': 'lt'}, queryset=Book.objects.all())
 >>> f.qs
@@ -551,7 +551,9 @@ TypeError: Meta.fields contains a field that isn't defined on this FilterSet
 [<User: alex>, <User: aaron>, <User: jacob>]
 
 >>> class F(FilterSet):
-...     price = django_filters.NumberFilter(lookup_type=['lt', 'gt', 'exact'])
+...     price = django_filters.NumberFilter(lookup_type=[('lt', 'Less than'),
+...         ('gt', 'Greater than'),
+...         ('exact', 'Exactly')])
 ...     class Meta:
 ...         model = Book
 ...         fields = ['price']
@@ -559,4 +561,10 @@ TypeError: Meta.fields contains a field that isn't defined on this FilterSet
 >>> f = F({'price_0': '15'})
 >>> f.qs
 [<Book: Rainbox Six>]
+>>> print f.form
+<tr><th><label for="id_price_0">Price:</label></th><td><input type="text" name="price_0" value="15" id="id_price_0" /><select name="price_1" id="id_price_1">
+<option value="lt">Less than</option>
+<option value="gt">Greater than</option>
+<option value="exact">Exactly</option>
+</select></td></tr>
 """
